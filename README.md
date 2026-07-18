@@ -10,43 +10,44 @@ Ask your assistant:
 
 Built in a weekend (~1.5 days) as a *#weekendbuild*.
 
+![PaperRadar demo](demo.gif)
+
 ## What it gives Claude
 
 One tool:
 
 - **`search_recent_papers(query, days=7, limit=20)`** — latest papers matching `query`, first-published within the last `days`. Returns `title, authors, date, source, doi, url, abstract`.
 
-## Install
+## Add to Claude
+
+**With [uv](https://docs.astral.sh/uv/) — runs straight from this repo, no PyPI needed:**
+
+Claude Code:
 
 ```bash
-# with uv (recommended)
-uv tool install paper-radar        # or: uv run --from . paper-radar
-# or with pip
-pip install paper-radar
+claude mcp add paper-radar -- uvx --from git+https://github.com/nagidev-lab/paper-radar paper-radar
 ```
 
-Or run from source:
+Claude Desktop — add to `claude_desktop_config.json`:
+
+```json
+{ "mcpServers": { "paper-radar": {
+  "command": "uvx",
+  "args": ["--from", "git+https://github.com/nagidev-lab/paper-radar", "paper-radar"]
+} } }
+```
+
+**From source (no uv):**
 
 ```bash
 git clone https://github.com/nagidev-lab/paper-radar && cd paper-radar
-uv run paper-radar     # (or: pip install -e . && paper-radar)
+python -m venv .venv && .venv/bin/pip install -e .
+claude mcp add paper-radar -- /full/path/to/paper-radar/.venv/bin/paper-radar
 ```
-
-## Add to Claude
-
-**Claude Desktop** — add to `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "paper-radar": { "command": "uvx", "args": ["paper-radar"] }
-  }
-}
-```
-
-**Claude Code** — `claude mcp add paper-radar -- uvx paper-radar`
 
 Then just ask: *"what's new in <topic> this week?"*
+
+_(A PyPI release is coming, which will shorten this to `uvx paper-radar`.)_
 
 ## How it works
 
